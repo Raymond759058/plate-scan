@@ -15,9 +15,9 @@ if (is_file(__DIR__ . '/config.local.php')) {
 // ---- Database ---------------------------------------------------------------
 defined('DB_HOST')    || define('DB_HOST', 'localhost');   // iFastNet: the MySQL host shown in your control panel
 defined('DB_PORT')    || define('DB_PORT', 3306);
-defined('DB_NAME')    || define('DB_NAME', 'plate_scan');
-defined('DB_USER')    || define('DB_USER', 'root');
-defined('DB_PASS')    || define('DB_PASS', '');
+defined('DB_NAME')    || define('DB_NAME', 'synergy1_raymondtanzijian_plate_scan');
+defined('DB_USER')    || define('DB_USER', 'synergy1_yenping');
+defined('DB_PASS')    || define('DB_PASS', 'R.zb0ZwEuGZ}*fW2');
 defined('DB_CHARSET') || define('DB_CHARSET', 'utf8mb4');
 
 // ---- Application ------------------------------------------------------------
