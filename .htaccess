@@ -1,0 +1,50 @@
+# PlateScan - Apache configuration
+# Works on Apache 2.4+ with mod_rewrite and mod_headers (standard on iFastNet shared hosting).
+
+# ---- Force HTTPS -------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} !^localhost [NC]
+  RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---- Never serve includes/, .sql, .log, .git, dotfiles ------------------------
+RewriteEngine On
+RewriteRule ^includes/ - [F,L,NC]
+<FilesMatch "\.(sql|log|md|env|ini|bak|sh)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# ---- Security headers ---------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "same-origin"
+  Header always unset X-Powered-By
+</IfModule>
+<IfModule mod_setenvif.c>
+  ServerSignature Off
+</IfModule>
+
+# ---- Sensible defaults ---------------------------------------------------------
+Options -Indexes
+<IfModule mod_php.c>
+  php_flag display_errors Off
+  php_value upload_max_filesize 10M
+  php_value post_max_size 10M
+</IfModule>
+
+# ---- Friendly caching for static assets ----------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+DirectoryIndex index.php
